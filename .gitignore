@@ -1,0 +1,22 @@
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+node_modules/
+
+# dotenv environment variables file
+.env
+
+### Windows ###
+# Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+
+# SAM
+.aws-sam/
+packaged.yaml
+
+# Typescript
+dist/
