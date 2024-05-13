@@ -1,0 +1,17 @@
+{
+  "name": "challenge-monorepo",
+  "version": "0.0.1",
+  "description": "Challenge project for wakeup labs",
+  "author": "Facundo De Lorenzo",
+  "private": true,
+  " workspaces": {
+    "packages":[
+      "packages/*"
+    ]
+  },
+  "scripts": {
+    "dev:frontapi": "concurrently \"pnpm --filter api start:dev\" \"pnpm --filter front start\""
+  },
+  "dependencies": {
+  }
+}
