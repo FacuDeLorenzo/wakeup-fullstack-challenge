@@ -1,6 +1,9 @@
 import styled from "styled-components";
+import useGetProducts from "./components/app/hooks/useGetProducts";
 
 const App = () => {
+  const products = useGetProducts();
+
   return (
     <div
       style={{
@@ -11,7 +14,8 @@ const App = () => {
       }}
     >
       <Title>This is a title</Title>
-      <img height={600}/>
+      <div>{products.length > 0 && "hay productitos jeje"}</div>
+      <img height={600} />
     </div>
   );
 };
