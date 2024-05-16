@@ -7,7 +7,7 @@
         "name": "Debug challenge!",
         "runtimeExecutable": "concurrently",
         "runtimeArgs": [
-          "pnpm --filter api start:debug",
+          "pnpm --filter api start",
           "pnpm --filter front start"
         ],
         "autoAttachChildProcesses": true,

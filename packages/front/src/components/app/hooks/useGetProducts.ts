@@ -10,7 +10,7 @@ const useGetProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/products").then((resp) => {
+    axios.get(`${process.env.REACT_APP_API_ENDPOINT}/products`).then((resp) => {
       if (resp.data) setProducts(resp.data);
     });
   }, []);

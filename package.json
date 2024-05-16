@@ -10,8 +10,9 @@
     ]
   },
   "scripts": {
-    "dev:frontapi": "concurrently \"pnpm --filter api start:debug\" \"pnpm --filter front start\"",
+    "dev:frontapi": "concurrently \"pnpm --filter api start\" \"pnpm --filter front start\"",
     "dev:front": "pnpm --filter front start",
+    "dev:api": "pnpm --filter api start",
     "build:front": "pnpm --filter front build"
   }
 }
