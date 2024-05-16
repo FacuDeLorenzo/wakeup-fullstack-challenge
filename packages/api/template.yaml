@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Api
+
+Resources:
+  GetProductsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./dist
+      Handler: products.get
+      Runtime: nodejs20.x
+      MemorySize: 128
+      Timeout: 10
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Method: GET
+            Path: /products
+
+  createOrderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./dist
+      Handler: products.createOrder
+      Runtime: nodejs20.x
+      MemorySize: 128
+      Timeout: 10
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Method: POST
+            Path: /createOrder

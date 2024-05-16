@@ -14,7 +14,8 @@ const App = () => {
       }}
     >
       <Title>This is a title</Title>
-      <div>{products.length > 0 && "hay productitos jeje"}</div>
+      <div>{products.length > 0 && "hay productos"}</div>
+      <div>{products.length === 0 && "No hay productos :("}</div>
       <img height={600} />
     </div>
   );
