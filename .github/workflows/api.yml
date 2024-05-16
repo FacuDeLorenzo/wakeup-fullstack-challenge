@@ -1,0 +1,46 @@
+name: Front
+
+on:
+  push:
+    paths:
+      - "packages/api/**"
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - name: Use Node.js ${{matrix.node-version}}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{matrix.node-version}}
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm i --filter api --config.dedupe-peer-dependents=false
+      
+      - name: Build application
+        working-directory: ./packages/api
+        run: pnpm build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+        
+      - name: Build
+        working-directory: ./packages/api
+        run: sam build
+        
+      - name: SAM Deploy
+        working-directory: ./packages/api
+        run:
+          yes | sam deploy --stack-name wakeup-fullstack-challenge-api --capabilities CAPABILITY_IAM
+  
