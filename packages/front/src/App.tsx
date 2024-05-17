@@ -1,28 +1,25 @@
-import styled from "styled-components";
-import useGetProducts from "./components/app/hooks/useGetProducts";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  createRoutesFromElements,
+} from "react-router-dom";
+import Products from "./pages/Products";
+import { CurrentOrderProvider } from "./components/app/contexts/useCurrentOrderProvider";
+import Restaurants from "./pages/Restaurant";
 
 const App = () => {
-  const products = useGetProducts();
+  const routes = [
+    <Route path="/" element={<Restaurants />} />,
+    <Route path="/:restaurant/products/" element={<Products />} />,
+  ];
+  const router2 = createBrowserRouter(createRoutesFromElements(routes));
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        alignItems: "center",
-      }}
-    >
-      <Title>This is a title</Title>
-      <div>{products.length > 0 && "hay productos"}</div>
-      <div>{products.length === 0 && "No hay productos :("}</div>
-      <img height={600} />
-    </div>
+    <CurrentOrderProvider>
+      <RouterProvider router={router2} />
+    </CurrentOrderProvider>
   );
 };
 
 export default App;
-
-const Title = styled.a`
-  font-size: 2rem;
-`;

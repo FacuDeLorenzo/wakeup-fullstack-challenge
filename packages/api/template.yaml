@@ -32,3 +32,18 @@ Resources:
           Properties:
             Method: POST
             Path: /createOrder
+  
+    GetProductsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./dist
+      Handler: restaurants.get
+      Runtime: nodejs20.x
+      MemorySize: 128
+      Timeout: 10
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Method: GET
+            Path: /restaurants
