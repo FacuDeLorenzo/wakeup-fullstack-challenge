@@ -2,41 +2,42 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Restaurant } from "../../../pages/Restaurant";
 
-export interface Product {
-  id: number;
-  name: string;
-  price: number;
+export interface IUseGetRestaurants {
+  limit: number;
 }
-
-const useGetRestaurants = () => {
-  const abortController = new AbortController();
-  const signal = abortController.signal;
+const useGetRestaurants = ({ limit }: IUseGetRestaurants) => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
 
-  const callAxios = () => {
+  const callAxios = (offsetCall: number) => {
     if (isFetching) return;
     setIsFetching(true);
 
     axios
-      .get(`${process.env.REACT_APP_API_ENDPOINT}/restaurants`, { signal })
+      .get(`${process.env.REACT_APP_API_ENDPOINT}/restaurants?limit=${limit}`)
       .then((resp) => {
-        if (!signal.aborted) if (resp.data) setRestaurants(resp.data);
+        if (resp.data) {
+          setOffset((value) => value + limit);
+          setHasMore(resp.data.hasMore);
+          setRestaurants(value => [...value, ...resp.data.restaurants]);
+        }
       })
       .catch((err) => {
-        if (!signal.aborted) console.error(err);
+        console.error(err);
       });
   };
 
+  const fetchNextPage = () => {
+    callAxios(offset);
+  };
+
   useEffect(() => {
-    callAxios();
-    return () => {
-      // Cancel the request when the component unmounts
-      abortController.abort();
-    };
+    callAxios(offset);
   }, []);
 
-  return { restaurants, isFetching };
+  return { restaurants, hasMore, fetchNextPage, isFetching };
 };
 
 export default useGetRestaurants;

@@ -11,7 +11,7 @@ export interface Restaurant {
 }
 
 const Restaurants = () => {
-  const {restaurants, isFetching} = useGetRestaurants();
+  const { restaurants, isFetching } = useGetRestaurants({ limit: 5 });
 
   return (
     <Body>

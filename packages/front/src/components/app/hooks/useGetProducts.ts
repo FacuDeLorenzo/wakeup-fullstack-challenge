@@ -12,6 +12,8 @@ export interface IUseGetProducts {
   limit: number;
 }
 const useGetProducts = ({ restaurantId, limit }: IUseGetProducts) => {
+  //Strict mode would keep re-rendering, which would not be fixed with an abortController
+  //But at least now my hook is safe to be unmounted
   const abortController = new AbortController();
   const signal = abortController.signal;
   const [products, setProducts] = useState<Product[]>([]);
@@ -43,7 +45,6 @@ const useGetProducts = ({ restaurantId, limit }: IUseGetProducts) => {
       });
   };
   const fetchNextPage = () => {
-    console.log(" no es por esto");
     callAxios(offset);
   };
 

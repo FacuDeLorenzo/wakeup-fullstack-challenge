@@ -13,7 +13,12 @@ exports.get = async (
   callback: Callback,
 ) => {
   try {
-    const restaurants: Restaurant[] = [
+    const req = event.queryStringParameters;
+
+    const limit = req.limit ? Number(req.limit) : 5;
+    const offset = req.offset ? Number(req.offset) : 0;
+
+    const restaurantsDB: Restaurant[] = [
       { id: 1, name: 'Big restaurant' },
       { id: 2, name: 'China here' },
       { id: 3, name: 'La parri argenta' },
@@ -25,14 +30,17 @@ exports.get = async (
       { id: 9, name: 'La parri argenta' },
       { id: 10, name: 'Small restaurant' },
       { id: 11, name: 'China there' },
-      { id: 12, name: 'La re parri argenta' },
+      { id: 12, name: 'La re parri argenta 3.0' },
     ];
+
+    const restaurants = restaurantsDB.slice(offset, offset + limit);
+    const hasMore = restaurantsDB.length > offset + limit;
 
     return {
       isBase64Encoded: false,
       statusCode: 200,
       headers: responseHeaders,
-      body: JSON.stringify(restaurants),
+      body: JSON.stringify({ restaurants, hasMore }),
     };
   } catch (error) {
     return {

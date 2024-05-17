@@ -13,7 +13,6 @@ exports.get = async (
   callback: Callback,
 ) => {
   try {
-    console.log('queryStringParameters!: ', event.queryStringParameters);
     const req = event.queryStringParameters;
     if (!req?.restaurantId)
       return {
@@ -22,6 +21,7 @@ exports.get = async (
         headers: responseHeaders,
         body: 'RestaurantId must be provided',
       };
+
     const limit = req.limit ? Number(req.limit) : 5;
     const offset = req.offset ? Number(req.offset) : 0;
 
@@ -42,7 +42,7 @@ exports.get = async (
       { id: 14, name: 'Asado x45', price: 2700 },
       { id: 15, name: 'Asado', price: 800 },
       { id: 16, name: 'Choripan', price: 230 },
-      { id: 17, name: 'Asado x45', price: 2700 },
+      { id: 17, name: 'Asado x455', price: 2700 },
     ];
 
     const products = productsDB.slice(offset, offset + limit);
