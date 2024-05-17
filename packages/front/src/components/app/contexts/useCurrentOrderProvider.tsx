@@ -8,9 +8,12 @@ export interface ICurrentOrderProvider {
 
 export const CurrentOrderProvider = ({ children }: ICurrentOrderProvider) => {
   const [orderProducts, setOrderProducts] = useState<OrderProduct[]>([]);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   return (
-    <CurrentOrderContext.Provider value={{ orderProducts, setOrderProducts }}>
+    <CurrentOrderContext.Provider
+      value={{ orderProducts, setOrderProducts, totalPrice, setTotalPrice }}
+    >
       {children}
     </CurrentOrderContext.Provider>
   );

@@ -4,7 +4,7 @@ import { CreateOrderRequest, Order, Product } from './types';
 const responseHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Credentials': true,
-  'Access-Control-Allow-Methods': 'OPTIONS,GET, POST',
+  'Access-Control-Allow-Methods': 'OPTIONS, GET, POST',
 };
 
 exports.get = async (
@@ -81,7 +81,7 @@ exports.createOrder = async (
       };
     const order: Order = {
       products: req.products,
-      totalPrice: req.products.reduce((acc, val) => acc + val.price, 0),
+      totalPrice: req.products.reduce((acc, val) => acc + val.product.price, 0),
     };
 
     return {

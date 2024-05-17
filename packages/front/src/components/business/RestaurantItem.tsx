@@ -1,7 +1,6 @@
 import styled from "@mui/material/styles/styled";
 import MuiCard from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { Restaurant } from "../../pages/Restaurant";
 

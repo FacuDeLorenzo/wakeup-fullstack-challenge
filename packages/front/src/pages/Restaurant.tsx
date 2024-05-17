@@ -1,9 +1,10 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import RestaurantItem from "../components/business/RestaurantItem";
 import styled from "@mui/material/styles/styled";
 import MuiPaper from "@mui/material/Paper";
 import useGetRestaurants from "../components/app/hooks/useGetRestaurants";
+import Loading from "../components/styled/Loading";
+import { Waypoint } from "react-waypoint";
+import { LinearProgress } from "@mui/material";
 
 export interface Restaurant {
   id: number;
@@ -11,14 +12,16 @@ export interface Restaurant {
 }
 
 const Restaurants = () => {
-  const { restaurants, isFetching } = useGetRestaurants({ limit: 5 });
+  const { restaurants, isFetching, hasMore, fetchNextPage } = useGetRestaurants(
+    { limit: 5 }
+  );
 
   return (
     <Body>
       <Paper>
         <Title>Choose your restaurant</Title>
         <RestaurantsContainer>
-          {restaurants.length === 0 && <div> Loading restaurants :)</div>}
+          {restaurants.length === 0 && isFetching && <Loading />}
           {restaurants.length > 0 &&
             restaurants.map((restaurant) => (
               <RestaurantItem
@@ -26,6 +29,21 @@ const Restaurants = () => {
                 restaurant={restaurant}
               />
             ))}
+          {hasMore && (
+            <Waypoint
+              onEnter={() => !isFetching && fetchNextPage()}
+              bottomOffset={"-30%"}
+            >
+              <StyledProgress>
+                <LinearProgress
+                  variant="buffer"
+                  value={0}
+                  valueBuffer={0}
+                  title="Cargando"
+                />
+              </StyledProgress>
+            </Waypoint>
+          )}
         </RestaurantsContainer>
       </Paper>
     </Body>
@@ -61,4 +79,12 @@ const RestaurantsContainer = styled("div")({
   display: "flex",
   flexDirection: "column",
   flexGrow: 1,
+});
+
+const StyledProgress = styled("div")({
+  width: 60,
+  marginLeft: "auto",
+  marginRight: "auto",
+  marginBottom: "16px",
+  marginTop: "16px",
 });

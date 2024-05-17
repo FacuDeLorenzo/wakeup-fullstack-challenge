@@ -1,5 +1,7 @@
 import { Product } from "./useGetProducts";
 import { useCurrentOrderContext } from "../contexts/useCurrentOrderContext";
+import axios from "axios";
+import { useState } from "react";
 
 export interface Order {
   products: OrderProduct[];
@@ -14,7 +16,8 @@ export interface CreateOrderRequest {
 }
 
 const useCreateOrder = () => {
-  const { orderProducts, setOrderProducts } = useCurrentOrderContext();
+  const { orderProducts, setOrderProducts, totalPrice, setTotalPrice } =
+    useCurrentOrderContext();
 
   const alterProduct = ({ product, amount }: OrderProduct) => {
     let productToAdd: OrderProduct | undefined = undefined;
@@ -27,15 +30,33 @@ const useCreateOrder = () => {
   };
   const createOrder = () => {
     if (orderProducts.length > 0) {
-      console.log("order products: ", orderProducts);
-      //Execute create order
+      axios
+        .post(
+          `${process.env.REACT_APP_API_ENDPOINT}/createOrder`,
+          {
+            products: orderProducts,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: false,
+          }
+        )
+        .then((resp) => {
+          if (resp.data) setTotalPrice(resp.data.totalPrice);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
   };
   const resetFlow = () => {
     setOrderProducts([]);
+    setTotalPrice(0);
   };
 
-  return { alterProduct, createOrder, orderProducts, resetFlow };
+  return { alterProduct, createOrder, orderProducts, resetFlow, totalPrice };
 };
 
 export default useCreateOrder;

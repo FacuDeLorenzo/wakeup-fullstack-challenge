@@ -2,7 +2,21 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: Api
 
+Globals:
+  Function:
+    Timeout: 10
+
 Resources:
+  MyApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: MyApi
+      StageName: Prod
+      Cors:
+        AllowMethods: "'GET,POST,OPTIONS'"
+        AllowHeaders: "'Content-Type,Authorization'"
+        AllowOrigin: "'*'"
+
   GetProductsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -10,13 +24,13 @@ Resources:
       Handler: products.get
       Runtime: nodejs20.x
       MemorySize: 128
-      Timeout: 10
       Events:
         Event:
           Type: Api
           Properties:
             Method: GET
             Path: /products
+            RestApiId: !Ref MyApi
 
   CreateOrderFunction:
     Type: AWS::Serverless::Function
@@ -25,25 +39,25 @@ Resources:
       Handler: products.createOrder
       Runtime: nodejs20.x
       MemorySize: 128
-      Timeout: 10
       Events:
         Event:
           Type: Api
           Properties:
             Method: POST
             Path: /createOrder
+            RestApiId: !Ref MyApi
   
-    GetProductsFunction:
+  GetRestaurantsFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./dist
       Handler: restaurants.get
       Runtime: nodejs20.x
       MemorySize: 128
-      Timeout: 10
       Events:
         Event:
           Type: Api
           Properties:
             Method: GET
             Path: /restaurants
+            RestApiId: !Ref MyApi

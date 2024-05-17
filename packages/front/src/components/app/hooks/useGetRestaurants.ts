@@ -11,30 +11,35 @@ const useGetRestaurants = ({ limit }: IUseGetRestaurants) => {
   const [hasMore, setHasMore] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
 
-  const callAxios = (offsetCall: number) => {
+  const callAxios = () => {
     if (isFetching) return;
     setIsFetching(true);
 
     axios
-      .get(`${process.env.REACT_APP_API_ENDPOINT}/restaurants?limit=${limit}`)
+      .get(
+        `${process.env.REACT_APP_API_ENDPOINT}/restaurants?limit=${limit}&offset=${offset}`
+      )
       .then((resp) => {
         if (resp.data) {
           setOffset((value) => value + limit);
           setHasMore(resp.data.hasMore);
-          setRestaurants(value => [...value, ...resp.data.restaurants]);
+          setRestaurants((value) => [...value, ...resp.data.restaurants]);
         }
       })
       .catch((err) => {
         console.error(err);
+      })
+      .finally(() => {
+        setIsFetching(false);
       });
   };
 
   const fetchNextPage = () => {
-    callAxios(offset);
+    callAxios();
   };
 
   useEffect(() => {
-    callAxios(offset);
+    callAxios();
   }, []);
 
   return { restaurants, hasMore, fetchNextPage, isFetching };

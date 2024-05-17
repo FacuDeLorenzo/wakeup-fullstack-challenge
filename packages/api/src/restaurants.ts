@@ -4,7 +4,7 @@ import { Restaurant } from './types';
 const responseHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Credentials': true,
-  'Access-Control-Allow-Methods': 'OPTIONS,GET, POST',
+  'Access-Control-Allow-Methods': 'OPTIONS, GET, POST',
 };
 
 exports.get = async (

@@ -21,12 +21,12 @@ const useGetProducts = ({ restaurantId, limit }: IUseGetProducts) => {
   const [hasMore, setHasMore] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
 
-  const callAxios = (offsetCall: number) => {
+  const callAxios = () => {
     if (isFetching) return;
     setIsFetching(true);
     axios
       .get(
-        `${process.env.REACT_APP_API_ENDPOINT}/products?limit=${limit}&offset=${offsetCall}&restaurantId=${restaurantId}`,
+        `${process.env.REACT_APP_API_ENDPOINT}/products?limit=${limit}&offset=${offset}&restaurantId=${restaurantId}`,
         { signal }
       )
       .then((resp) => {
@@ -45,11 +45,11 @@ const useGetProducts = ({ restaurantId, limit }: IUseGetProducts) => {
       });
   };
   const fetchNextPage = () => {
-    callAxios(offset);
+    callAxios();
   };
 
   useEffect(() => {
-    callAxios(offset);
+    callAxios();
     return () => {
       // Cancel the request when the component unmounts
       abortController.abort();

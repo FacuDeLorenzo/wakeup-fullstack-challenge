@@ -10,6 +10,7 @@ import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
 import { Waypoint } from "react-waypoint";
+import Loading from "../components/styled/Loading";
 
 const Products = () => {
   let params = useParams();
@@ -21,7 +22,7 @@ const Products = () => {
   const navigate = useNavigate();
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
-  const { alterProduct, createOrder, orderProducts, resetFlow } =
+  const { alterProduct, createOrder, orderProducts, resetFlow, totalPrice } =
     useCreateOrder();
 
   const onCreateOrder = () => {
@@ -32,9 +33,11 @@ const Products = () => {
   return (
     <Body>
       <Paper>
-        <Title>Make your order</Title>
+        <Topbar>
+          <Title>Make your order</Title>
+        </Topbar>
         <ProductsContainer>
-          {products.length === 0 && <div> Loading products :)</div>}
+          {products.length === 0 && <Loading />}
           {products.length > 0 &&
             products.map((product) => (
               <ProductItem
@@ -67,9 +70,8 @@ const Products = () => {
           Create order
         </CreateOrderButton>
         <SuccessModal
+          totalPrice={totalPrice}
           onSuccessClick={() => {
-            setIsSuccessModalOpen(false);
-            resetFlow();
             navigate(0);
           }}
           open={isSuccessModalOpen}
@@ -80,34 +82,50 @@ const Products = () => {
 };
 export default Products;
 
-const StyledProgress = styled("div")({
-  width: 60,
-  marginLeft: "auto",
-  marginRight: "auto",
-  marginBottom: "2px",
-  marginTop: "2px",
-});
-
 interface ISuccessModal {
+  totalPrice: number;
   open: boolean;
   onSuccessClick(): void;
 }
-const SuccessModal = ({ open, onSuccessClick }: ISuccessModal) => {
+const SuccessModal = ({ totalPrice, open, onSuccessClick }: ISuccessModal) => {
   return (
     <Modal open={open}>
       <Paper>
         <ModalBody>
-          <Typography style={{ marginBottom: "16px" }}>
-            The order was successfully placed!
-          </Typography>
-          <Button variant="contained" onClick={onSuccessClick}>
-            Cool!
-          </Button>
+          {!totalPrice && <Loading />}
+          {!!totalPrice && (
+            <>
+              <Typography style={{ marginBottom: "16px" }}>
+                The order was successfully placed!
+              </Typography>
+              <Typography style={{ marginBottom: "16px" }}>
+                Total price is ${totalPrice}
+              </Typography>
+              <Button variant="contained" onClick={onSuccessClick}>
+                Cool!
+              </Button>
+            </>
+          )}
         </ModalBody>
       </Paper>
     </Modal>
   );
 };
+
+const Topbar = styled("div")({
+  display: "flex",
+  flexDirection: "row",
+  marginBottom: "1rem",
+});
+
+const StyledProgress = styled("div")({
+  width: 60,
+  marginLeft: "auto",
+  marginRight: "auto",
+  marginBottom: "16px",
+  marginTop: "16px",
+});
+
 const ModalBody = styled("div")({
   textAlign: "center",
 });
@@ -116,7 +134,6 @@ const Title = styled("a")({
   top: 0,
   position: "sticky",
   fontSize: "2rem",
-  marginBottom: "1rem",
   textAlign: "center",
   backgroundColor: "#FFFFFF",
 });

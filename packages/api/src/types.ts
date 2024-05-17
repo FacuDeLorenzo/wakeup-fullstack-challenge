@@ -1,5 +1,5 @@
 export interface CreateOrderRequest {
-  products: Product[];
+  products: OrderProduct[];
 }
 export interface OrderProduct {
   product: Product;
@@ -13,7 +13,7 @@ export interface Product {
 }
 
 export interface Order {
-  products: Product[];
+  products: OrderProduct[];
   totalPrice: number;
 }
 
