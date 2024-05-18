@@ -116,6 +116,7 @@ const Topbar = styled("div")({
   display: "flex",
   flexDirection: "row",
   marginBottom: "1rem",
+  justifyContent: "center",
 });
 
 const StyledProgress = styled("div")({
