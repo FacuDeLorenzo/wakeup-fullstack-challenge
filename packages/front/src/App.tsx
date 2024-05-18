@@ -5,7 +5,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import Products from "./pages/Products";
-import { CurrentOrderProvider } from "./components/app/contexts/useCurrentOrderProvider";
+import { CurrentOrderProvider } from "./components/app/contexts/currentOrder/useCurrentOrderProvider";
 import Restaurants from "./pages/Restaurant";
 
 const App = () => {

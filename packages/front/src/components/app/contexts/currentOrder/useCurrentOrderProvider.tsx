@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 import { CurrentOrderContext } from "./useCurrentOrderContext";
-import { OrderProduct } from "../hooks/useCreateOrder";
+import { OrderProduct } from "../../hooks/useCreateOrder";
 
 export interface ICurrentOrderProvider {
   children: ReactNode;

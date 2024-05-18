@@ -1,7 +1,6 @@
 import { Product } from "./useGetProducts";
-import { useCurrentOrderContext } from "../contexts/useCurrentOrderContext";
+import { useCurrentOrderContext } from "../contexts/currentOrder/useCurrentOrderContext";
 import axios from "axios";
-import { useState } from "react";
 
 export interface Order {
   products: OrderProduct[];

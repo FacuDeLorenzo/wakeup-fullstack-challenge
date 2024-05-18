@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { OrderProduct } from "../hooks/useCreateOrder";
+import { OrderProduct } from "../../hooks/useCreateOrder";
 
 interface CurrentOrderContextType {
   orderProducts: OrderProduct[];

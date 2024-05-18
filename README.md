@@ -35,6 +35,11 @@ So as to be able to run the API you must first get the AWS SAM CLI because it's 
 Get the latest version of AWS SAM CLI from here
 https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html
 
+Front is deployed at
+http://wakeup-fullstack-challenge.s3-website-us-east-1.amazonaws.com/
+
+Api is deployed at
+https://n6nzscrpv7.execute-api.us-east-1.amazonaws.com/Prod
 
 Tests for the backend were not implemented.
 If they were to be implemented, I'd use jest.
