@@ -17,23 +17,23 @@ const useGetProducts = ({ restaurantId, limit }: IUseGetProducts) => {
   const abortController = new AbortController();
   const signal = abortController.signal;
   const [products, setProducts] = useState<Product[]>([]);
-  const [offset, setOffset] = useState(0);
-  const [hasMore, setHasMore] = useState(false);
+  const [lastKey, setLastKey] = useState<any>();
   const [isFetching, setIsFetching] = useState(false);
 
   const callAxios = () => {
     if (isFetching) return;
     setIsFetching(true);
+    let strParams = `limit=${limit}&restaurantId=${restaurantId}`;
+    if (lastKey) strParams += `&lastKey=${JSON.stringify(lastKey)}`;
     axios
       .get(
-        `${process.env.REACT_APP_API_ENDPOINT}/products?limit=${limit}&offset=${offset}&restaurantId=${restaurantId}`,
+        `${process.env.REACT_APP_API_ENDPOINT}/products?${strParams}`,
         { signal }
       )
       .then((resp) => {
         if (!signal.aborted)
           if (resp.data) {
-            setOffset((value) => value + limit);
-            setHasMore(resp.data.hasMore);
+            setLastKey(resp.data.lastKey);
             setProducts((value) => [...value, ...resp.data.products]);
           }
       })
@@ -56,7 +56,7 @@ const useGetProducts = ({ restaurantId, limit }: IUseGetProducts) => {
     };
   }, []);
 
-  return { products, hasMore, fetchNextPage, isFetching };
+  return { products, hasMore: !!lastKey, fetchNextPage, isFetching };
 };
 
 export default useGetProducts;
