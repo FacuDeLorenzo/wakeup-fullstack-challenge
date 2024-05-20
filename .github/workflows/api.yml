@@ -42,5 +42,5 @@ jobs:
       - name: SAM Deploy
         working-directory: ./packages/api
         run:
-          yes | sam deploy --stack-name wakeup-fullstack-challenge-api --capabilities CAPABILITY_IAM
+          yes | sam deploy --stack-name wakeup-fullstack-challenge-api --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
   
