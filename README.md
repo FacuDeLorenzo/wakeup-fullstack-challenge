@@ -45,8 +45,12 @@ Tests for the backend were not implemented.
 If they were to be implemented, I'd use jest.
 I'd write a test for every lambda handler, so as to check that they can handle recieving wrong parameters, and also to ensure that they get their job done as it's meant to be, which is important to keep the business rules working rightfully.
 
+[Outdated]
 For the db i was on my way to implement dynamo but run out of time
 (Friday 6pm)
 
 I'll try to make it work for monday :)
 
+[new]
+Dynamo db added to store orders,
+Api allows to list and finish orders but UI wasn't developed.

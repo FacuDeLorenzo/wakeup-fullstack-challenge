@@ -26,7 +26,7 @@ const Products = () => {
     useCreateOrder();
 
   const onCreateOrder = () => {
-    createOrder();
+    createOrder({ restaurantId });
     setIsSuccessModalOpen(true);
   };
 

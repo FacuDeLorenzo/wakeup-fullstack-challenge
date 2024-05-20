@@ -11,7 +11,7 @@ export interface OrderProduct {
   amount: number;
 }
 export interface CreateOrderRequest {
-  products: OrderProduct[];
+  restaurantId: number;
 }
 
 const useCreateOrder = () => {
@@ -27,12 +27,13 @@ const useCreateOrder = () => {
         .concat(productToAdd ? [productToAdd] : []),
     ]);
   };
-  const createOrder = () => {
+  const createOrder = ({restaurantId}:CreateOrderRequest) => {
     if (orderProducts.length > 0) {
       axios
         .post(
           `${process.env.REACT_APP_API_ENDPOINT}/createOrder`,
           {
+            restaurantId,
             products: orderProducts,
           },
           {

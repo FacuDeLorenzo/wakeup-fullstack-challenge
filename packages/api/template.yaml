@@ -36,7 +36,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./dist
-      Handler: products.createOrder
+      Handler: orders.create
       Runtime: nodejs20.x
       MemorySize: 128
       Events:
@@ -45,6 +45,36 @@ Resources:
           Properties:
             Method: POST
             Path: /createOrder
+            RestApiId: !Ref MyApi
+
+  FinishOrderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./dist
+      Handler: orders.finish
+      Runtime: nodejs20.x
+      MemorySize: 128
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Method: POST
+            Path: /finishOrder
+            RestApiId: !Ref MyApi
+
+  GetOrdersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./dist
+      Handler: orders.get
+      Runtime: nodejs20.x
+      MemorySize: 128
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Method: GET
+            Path: /orders
             RestApiId: !Ref MyApi
   
   GetRestaurantsFunction:
