@@ -43,7 +43,6 @@ exports.get = async (
       ExclusiveStartKey: lastKey,
     });
     const response = await docClient.send(command);
-    console.log('response: ', response);
 
     const products: ProductDTO[] = response.Items.map((x) => ({
       id: x.productId,

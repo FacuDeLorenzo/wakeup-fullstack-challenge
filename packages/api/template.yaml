@@ -5,9 +5,19 @@ Description: Api
 Globals:
   Function:
     Timeout: 10
-    Role: !GetAtt ExecutionRole.Arn
 
 Resources:
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument: Json
+      RoleName: APIExecutionRole
+      Policies: 
+        - DynamoDBCrudPolicy:
+          TableName: wakeup-challenge-orders
+        - DynamoDBCrudPolicy:
+          TableName: wakeup-challenge-products
+          
   MyApi:
     Type: AWS::Serverless::Api
     Properties:
@@ -25,6 +35,7 @@ Resources:
       Handler: products.get
       Runtime: nodejs20.x
       MemorySize: 128
+      Role: !GetAtt ExecutionRole.Arn
       Events:
         Event:
           Type: Api
@@ -40,6 +51,7 @@ Resources:
       Handler: orders.create
       Runtime: nodejs20.x
       MemorySize: 128
+      Role: !GetAtt ExecutionRole.Arn
       Events:
         Event:
           Type: Api
@@ -55,6 +67,7 @@ Resources:
       Handler: orders.finish
       Runtime: nodejs20.x
       MemorySize: 128
+      Role: !GetAtt ExecutionRole.Arn
       Events:
         Event:
           Type: Api
@@ -70,6 +83,7 @@ Resources:
       Handler: orders.get
       Runtime: nodejs20.x
       MemorySize: 128
+      Role: !GetAtt ExecutionRole.Arn
       Events:
         Event:
           Type: Api
@@ -85,6 +99,7 @@ Resources:
       Handler: restaurants.get
       Runtime: nodejs20.x
       MemorySize: 128
+      Role: !GetAtt ExecutionRole.Arn
       Events:
         Event:
           Type: Api
@@ -92,14 +107,3 @@ Resources:
             Method: GET
             Path: /restaurants
             RestApiId: !Ref MyApi
-
-  ExecutionRole:
-    Type: AWS::IAM::Role
-    Properties: 
-      AssumeRolePolicyDocument: Json
-      RoleName: APIExecutionRole
-      Policies: 
-        - DynamoDBCrudPolicy:
-          TableName: wakeup-challenge-orders
-        - DynamoDBCrudPolicy:
-          TableName: wakeup-challenge-products
