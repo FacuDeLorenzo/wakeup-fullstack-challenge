@@ -168,7 +168,6 @@ exports.finish = async (
       ReturnValues: 'ALL_NEW',
     });
     const response = await docClient.send(command) as Omit<UpdateCommandOutput, "Item"> & { Item: Order };
-    console.log('response: ', response);
 
     const updatedItem = response.Attributes;
     const updatedOrder: OrderDTO = {

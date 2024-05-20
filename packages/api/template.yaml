@@ -5,6 +5,7 @@ Description: Api
 Globals:
   Function:
     Timeout: 10
+    Role: !GetAtt ExecutionRole.Arn
 
 Resources:
   MyApi:
@@ -91,3 +92,14 @@ Resources:
             Method: GET
             Path: /restaurants
             RestApiId: !Ref MyApi
+
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument: Json
+      RoleName: APIExecutionRole
+      Policies: 
+        - DynamoDBCrudPolicy:
+          TableName: wakeup-challenge-orders
+        - DynamoDBCrudPolicy:
+          TableName: wakeup-challenge-products
