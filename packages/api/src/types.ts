@@ -7,6 +7,7 @@ export interface FinishOrderRequest {
   orderId: string;
   restaurantId: number;
 }
+
 export interface OrderProduct {
   product: ProductDTO;
   amount: number;

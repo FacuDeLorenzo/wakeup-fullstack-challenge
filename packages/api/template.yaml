@@ -10,13 +10,16 @@ Resources:
   ExecutionRole:
     Type: AWS::IAM::Role
     Properties: 
-      AssumeRolePolicyDocument: Json
+      AssumeRolePolicyDocument:
+       Version: '2012-10-17'
+      Statement:
+        - Effect: Allow
+          Principal:
+            Service: 'lambda.amazonaws.com'
+          Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        -arn:aws:iam::aws:policy/DynamoDBCrudPolicy
       RoleName: APIExecutionRole
-      Policies: 
-        - DynamoDBCrudPolicy:
-          TableName: wakeup-challenge-orders
-        - DynamoDBCrudPolicy:
-          TableName: wakeup-challenge-products
           
   MyApi:
     Type: AWS::Serverless::Api
