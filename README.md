@@ -39,7 +39,7 @@ Front is deployed at
 http://wakeup-fullstack-challenge.s3-website-us-east-1.amazonaws.com/
 
 Api is deployed at
-https://n6nzscrpv7.execute-api.us-east-1.amazonaws.com/Prod
+https://933yetx2uk.execute-api.us-east-1.amazonaws.com/Prod
 
 Tests for the backend were not implemented.
 If they were to be implemented, I'd use jest.
